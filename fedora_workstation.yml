@@ -3,8 +3,8 @@
   hosts: localhost
   vars:
     - hostname: LeosThinkPad
-    - default_shell: /usr/bin/fish
     - projects_directory: Projects
+    - dotfiles_repo: git@github.com:lstwn/dotfiles.git
   vars_files:
     - ./vars/packages.yaml
     - ./vars/secrets.yml
@@ -14,17 +14,14 @@
       private: yes
       confirm: yes
   tasks:
-    - name: Download required roles
-      local_action: "command ansible-galaxy install -r {{ playbook_dir }}/requirements.yml"
-      become: false
     - import_tasks: ./tasks/configure_auto_updates.yml
     - import_tasks: ./tasks/install_repo_packages.yml
     - import_tasks: ./tasks/configure_hostname_and_user.yml
-    - include_tasks: ./tasks/generate_ssh_keypair_and_publish.yml
+    - import_tasks: ./tasks/generate_ssh_keypair_and_publish.yml
     - import_tasks: ./tasks/configure_dotfiles.yml
-    - include_tasks: ./tasks/install_flatpaks.yml
+    - import_tasks: ./tasks/install_flatpaks.yml
     - import_tasks: ./tasks/install_vscode.yml
     - import_tasks: ./tasks/install_docker.yml
     - import_tasks: ./tasks/install_rust.yml
     - import_tasks: ./tasks/install_cargo_packages.yml
-    - include_tasks: ./tasks/install_npm_packages.yml
+    - import_tasks: ./tasks/install_npm_packages.yml

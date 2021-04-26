@@ -15,6 +15,6 @@
 - name: Authorize key with GitHub
   community.general.github_key:
     name: "{{ hostname }}"
-    token: '{{ github_access_token }}'
-    pubkey: '{{ ssh_public_key.stdout }}'
+    token: "{{ github_access_token }}"
+    pubkey: "{{ ssh_public_key.stdout }}"
     state: present
