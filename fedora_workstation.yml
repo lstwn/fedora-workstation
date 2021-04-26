@@ -1,6 +1,9 @@
 ---
-- name: Configure raspi fedora server
-  hosts: all
+- name: Configure fedora workstation
+  hosts: localhost
+  vars:
+    - hostname: LeosThinkPad
+    - default_shell: /usr/bin/fish
   vars_files:
     - ./vars/packages.yaml
     - ./vars/secrets.yml
@@ -8,34 +11,16 @@
     - name: ssh_key_passphrase
       prompt: Enter ssh key passphrase
       private: yes
+      confirm: yes
   tasks:
-    - name: Set hostname
-      become: true
-      ansible.builtin.hostname:
-        name: LeosPi
-    - import_tasks: ./tasks/generate_ssh_keypair_and_publish.yml
-    - name: Install auto updates
-      become: true
-      ansible.builtin.dnf:
-        name: "dnf-automatic"
-        state: present
-    - name: Enable timer for dnf-automatic
-      become: true
-      ansible.builtin.systemd:
-        name: dnf-automatic.timer
-        state: started
-        enabled: yes
+    - import_tasks: ./tasks/configure_auto_updates.yml
     - import_tasks: ./tasks/install_repo_packages.yml
-    - import_tasks: ./tasks/configure_sshd.yml
-    - name: Create projects directory
-      ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/projects"
-        state: directory
-    - name: Clone dotfiles
-      ansible.builtin.git:
-        repo: git@github.com:lstwn/dotfiles.git
-        dest: "{{ ansible_env.HOME }}/projects/dotfiles"
-        accept_hostkey: yes
-    # todo: execute playbook (?)
-    # - import_tasks: ./tasks/install_npm_packages.yml
-    # - import_tasks: ./tasks/install_docker.yml
+    - import_tasks: ./tasks/configure_hostname_and_user.yml
+    - import_tasks: ./tasks/generate_ssh_keypair_and_publish.yml
+    - import_tasks: ./tasks/configure_dotfiles.yml
+    - import_tasks: ./tasks/install_flatpaks.yml
+    - import_tasks: ./tasks/install_vscode.yml
+    - import_tasks: ./tasks/install_docker.yml
+    - import_tasks: ./tasks/install_rust.yml
+    - import_tasks: ./tasks/install_cargo_packages.yml
+    - import_tasks: ./tasks/install_npm_packages.yml

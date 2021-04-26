@@ -6,8 +6,10 @@
     key: https://packages.microsoft.com/keys/microsoft.asc
 - name: Add VSCode Repo
   become: true
-  ansible.builtin.command: "dnf config-manager --add-repo \
-  https://packages.microsoft.com/yumrepos/vscode.repo"
+  ansible.builtin.command:
+    cmd: "dnf config-manager --add-repo \
+          https://packages.microsoft.com/yumrepos/vscode.repo"
+    warn: false
 - name: Install VSCode
   become: true
   ansible.builtin.dnf:
