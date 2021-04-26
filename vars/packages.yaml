@@ -47,9 +47,14 @@ repo_packages:
   # - steam-installer
 
 repo_packages_clean:
+  - gnome-contacts
+  - gnome-calendar
   - gedit
   - totem
-  - gnome-contacts
+  - rhythmbox
+  - gnome-photos
+  - gnome-maps
+  - gnome-tour
 
 flathub_packages:
   - io.github.celluloid_player.Celluloid
