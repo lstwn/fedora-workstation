@@ -25,7 +25,7 @@ repo_packages:
   - flatpak
   - wl-clipboard
   - nautilus
-  - nautilus-extension-gnome-terminal
+  #- nautilus-extension-gnome-terminal
   - gnome-terminal
   - gnome-tweaks
   - gnome-clocks
