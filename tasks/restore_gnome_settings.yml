@@ -1,0 +1,4 @@
+---
+- name: Restore gnome settings via dconf
+  ansible.builtin.shell:
+    cmd: "dconf load -f / < {{ playbook_dir }}/files/dconf_dump"

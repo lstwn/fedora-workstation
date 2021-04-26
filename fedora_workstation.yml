@@ -25,3 +25,4 @@
     - import_tasks: ./tasks/install_rust.yml
     - import_tasks: ./tasks/install_cargo_packages.yml
     - import_tasks: ./tasks/install_npm_packages.yml
+    - import_tasks: ./tasks/restore_gnome_settings.yml
