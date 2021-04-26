@@ -14,6 +14,9 @@
       private: yes
       confirm: yes
   tasks:
+    - name: Download required roles
+      local_action: "command ansible-galaxy install -r {{ playbook_dir }}/requirements.yml"
+      become: false
     - import_tasks: ./tasks/configure_auto_updates.yml
     - import_tasks: ./tasks/install_repo_packages.yml
     - import_tasks: ./tasks/configure_hostname_and_user.yml
