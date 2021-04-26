@@ -25,9 +25,9 @@ repo_packages:
   - flatpak
   - wl-clipboard
   - nautilus
-  #- nautilus-extension-gnome-terminal
   - gnome-terminal
   - gnome-tweaks
+  - gnome-extensions-app
   - gnome-clocks
   - gnome-calculator
   - simple-scan
@@ -38,7 +38,7 @@ repo_packages:
   - java-openjdk
   - make
   - clang
-  # - baobab
+  - baobab
   # - seahorse
   # - ffmpeg
   # - mesa-vulkan-drivers
