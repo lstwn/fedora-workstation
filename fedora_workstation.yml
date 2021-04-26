@@ -1,0 +1,41 @@
+---
+- name: Configure raspi fedora server
+  hosts: all
+  vars_files:
+    - ./vars/packages.yaml
+    - ./vars/secrets.yml
+  vars_prompt:
+    - name: ssh_key_passphrase
+      prompt: Enter ssh key passphrase
+      private: yes
+  tasks:
+    - name: Set hostname
+      become: true
+      ansible.builtin.hostname:
+        name: LeosPi
+    - import_tasks: ./tasks/generate_ssh_keypair_and_publish.yml
+    - name: Install auto updates
+      become: true
+      ansible.builtin.dnf:
+        name: "dnf-automatic"
+        state: present
+    - name: Enable timer for dnf-automatic
+      become: true
+      ansible.builtin.systemd:
+        name: dnf-automatic.timer
+        state: started
+        enabled: yes
+    - import_tasks: ./tasks/install_repo_packages.yml
+    - import_tasks: ./tasks/configure_sshd.yml
+    - name: Create projects directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/projects"
+        state: directory
+    - name: Clone dotfiles
+      ansible.builtin.git:
+        repo: git@github.com:lstwn/dotfiles.git
+        dest: "{{ ansible_env.HOME }}/projects/dotfiles"
+        accept_hostkey: yes
+    # todo: execute playbook (?)
+    # - import_tasks: ./tasks/install_npm_packages.yml
+    # - import_tasks: ./tasks/install_docker.yml
