@@ -4,6 +4,7 @@
   vars:
     - hostname: LeosThinkPad
     - default_shell: /usr/bin/fish
+    - projects_directory: Projects
   vars_files:
     - ./vars/packages.yaml
     - ./vars/secrets.yml
